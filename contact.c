@@ -89,31 +89,8 @@ void list_contacts(AddressBook *addressbook)
         {
         case 1:
         {
-            //Using bubble sort method to sorted the contact list by sort by name
-            for(int i=0; i<addressbook->contact_count; i++)
-            {
-                for(int j=0; j<addressbook->contact_count-i-1; j++)
-                {
-                    //strcmp function will return +ve value if string [j+1] is less than string [j]
-                    int ret = strcmp(addressbook->contact_details[j].Name,addressbook->contact_details[j+1].Name);
-                    if(ret > 0)
-                    {
-                        //Swapping of name
-                        strcpy(temp_name,addressbook->contact_details[j].Name);
-                        strcpy(addressbook->contact_details[j].Name,addressbook->contact_details[j+1].Name);
-                        strcpy(addressbook->contact_details[j+1].Name,temp_name);
-                        //swapping of number
-                        strcpy(temp_number,addressbook->contact_details[j].Mobile_number);
-                        strcpy(addressbook->contact_details[j].Mobile_number,addressbook->contact_details[j+1].Mobile_number);
-                        strcpy(addressbook->contact_details[j+1].Mobile_number,temp_number);
-                        //swapping of mail
-                        strcpy(temp_mail,addressbook->contact_details[j].Mail_ID);
-                        strcpy(addressbook->contact_details[j].Mail_ID,addressbook->contact_details[j+1].Mail_ID);
-                        strcpy(addressbook->contact_details[j+1].Mail_ID,temp_mail);
-                    }
-                }
-            }
-            //printing the contact list by asending order
+            //Sorting the contacts based on name using qsort function and ascending_name function is used to compare the names.
+            qsort(addressbook->contact_details, addressbook->contact_count, sizeof(Contacts), ascending_name);
             printf("\n%-5s %-20s %-15s %-30s\n","NO.","NAME","MOBILE","MAIL ID");
             printf("------------------------------------------------------------------------------\n");
             for(int i=0; i<addressbook->contact_count; i++)
@@ -131,33 +108,10 @@ void list_contacts(AddressBook *addressbook)
 
         case 2:
         {
-            //sort by number using by bubble sort method
-            for(int i=0; i<addressbook->contact_count; i++)
-            {
-                for(int j=0; j<addressbook->contact_count-i-1; j++)
-                {
-                    int ret = strcmp(addressbook->contact_details[j].Mobile_number,addressbook->contact_details[j+1].Mobile_number);
-                    if(ret > 0)
-                    {
-                        //Swapping of name
-                        strcpy(temp_name,addressbook->contact_details[j].Name);
-                        strcpy(addressbook->contact_details[j].Name,addressbook->contact_details[j+1].Name);
-                        strcpy(addressbook->contact_details[j+1].Name,temp_name);
-                        //Swapping of number
-                        strcpy(temp_number,addressbook->contact_details[j].Mobile_number);
-                        strcpy(addressbook->contact_details[j].Mobile_number,addressbook->contact_details[j+1].Mobile_number);
-                        strcpy(addressbook->contact_details[j+1].Mobile_number,temp_number);
-                        //Swapping of mail
-                        strcpy(temp_mail,addressbook->contact_details[j].Mail_ID);
-                        strcpy(addressbook->contact_details[j].Mail_ID,addressbook->contact_details[j+1].Mail_ID);
-                        strcpy(addressbook->contact_details[j+1].Mail_ID,temp_mail);
-                    }
-                }
-            }
-
-            //display all the contact detials
+            //Sorting the contacts based on mobile number using qsort function and ascending_number function is used to compare the numbers.
+            qsort(addressbook->contact_details, addressbook->contact_count, sizeof(Contacts), ascending_number);
             printf("\n%-5s %-20s %-15s %-30s\n","NO.","NAME","MOBILE","MAIL ID");
-            printf("-----------------------------------------------------------------\n");
+            printf("------------------------------------------------------------------------------\n");
             for(int i=0; i<addressbook->contact_count; i++)
             {
                 printf("%-5d ",i+1);
@@ -166,39 +120,17 @@ void list_contacts(AddressBook *addressbook)
                 printf("%-30s\n",addressbook->contact_details[i].Mail_ID);
 
             }
-            printf("-----------------------------------------------------------------\n");
+            printf("------------------------------------------------------------------------------\n");
             printf("\n");
             break;
         }
 
         case 3:
         {
-            //sort by mail using by bubble sort method
-            for(int i=0; i<addressbook->contact_count; i++)
-            {
-                for(int j=0; j<addressbook->contact_count-i-1; j++)
-                {
-                    int ret = strcmp(addressbook->contact_details[j].Mail_ID,addressbook->contact_details[j+1].Mail_ID);
-                    if(ret > 0)
-                    {
-                        //swapping name
-                        strcpy(temp_name,addressbook->contact_details[j].Name);
-                        strcpy(addressbook->contact_details[j].Name,addressbook->contact_details[j+1].Name);
-                        strcpy(addressbook->contact_details[j+1].Name,temp_name);
-                         //swapping number
-                        strcpy(temp_number,addressbook->contact_details[j].Mobile_number);
-                        strcpy(addressbook->contact_details[j].Mobile_number,addressbook->contact_details[j+1].Mobile_number);
-                        strcpy(addressbook->contact_details[j+1].Mobile_number,temp_number);
-                        //swapping mail           
-                        strcpy(temp_mail,addressbook->contact_details[j].Mail_ID);
-                        strcpy(addressbook->contact_details[j].Mail_ID,addressbook->contact_details[j+1].Mail_ID);
-                        strcpy(addressbook->contact_details[j+1].Mail_ID,temp_mail);
-                    }
-                }
-            }
-            //display all the contact details
+            //Sorting the contacts based on mail id using qsort function and ascending_mail function is used to compare the mail ids.
+            qsort(addressbook->contact_details, addressbook->contact_count, sizeof(Contacts), ascending_mail);
             printf("\n%-5s %-20s %-15s %-30s\n","NO.","NAME","MOBILE","MAIL ID");
-            printf("-----------------------------------------------------------------\n");
+            printf("------------------------------------------------------------------------------\n");
             for(int i=0; i<addressbook->contact_count; i++)
             {
                 printf("%-5d ",i+1);
@@ -207,7 +139,7 @@ void list_contacts(AddressBook *addressbook)
                 printf("%-30s\n",addressbook->contact_details[i].Mail_ID);
 
             }
-            printf("-----------------------------------------------------------------\n");
+            printf("------------------------------------------------------------------------------\n");
             printf("\n");
             break;
         }
@@ -215,6 +147,26 @@ void list_contacts(AddressBook *addressbook)
         }
     }
 
+}
+
+// Function definations for sorting the contacts based on name,number and mail id
+int ascending_name(const void *a, const void *b)
+{
+    const Contacts *A = (const Contacts *)a;
+    const Contacts *B = (const Contacts *)b;
+    return strcmp(A->Name, B->Name);
+}
+int ascending_number(const void *a, const void *b)
+{
+    const Contacts *A = (const Contacts *)a;
+    const Contacts *B = (const Contacts *)b;
+    return strcmp(A->Mobile_number, B->Mobile_number);
+}
+int ascending_mail(const void *a, const void *b)
+{
+    const Contacts *A = (const Contacts *)a;
+    const Contacts *B = (const Contacts *)b;
+    return strcmp(A->Mail_ID, B->Mail_ID);
 }
 
 void search_contacts(AddressBook *addressbook)

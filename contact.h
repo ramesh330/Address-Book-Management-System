@@ -4,6 +4,7 @@
 #include<ctype.h>
 #include<string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 // Structures for the Fields
 typedef struct Contact_data
@@ -40,6 +41,10 @@ void valid_mail(char *,AddressBook *);
 int search_name(AddressBook *);
 int search_number(AddressBook *);
 int search_mail(AddressBook *);
+
+int ascending_name(const void *, const void *);
+int ascending_number(const void *, const void *);
+int ascending_mail(const void *, const void *);
 
 void delet_loader();
 void save_loader();
