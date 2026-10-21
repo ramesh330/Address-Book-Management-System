@@ -70,9 +70,6 @@ void create_contact(AddressBook *addressbook)
 void list_contacts(AddressBook *addressbook)
 {
 
-    char temp_name[30];
-    char temp_number[30];
-    char temp_mail[30];
     //If contacts are not there it will print no number is saved and return to main
     if(addressbook->contact_count == 0)
     {
